@@ -1,11 +1,7 @@
-import re
-
-
 def do_challenge():
     file = open('1/input.txt', 'r')
     lines = file.readlines()
     total = do_challenge_b(lines)
-        # print(f'Asbolute diff between {l_value} and {r_value} = {abs_diff}')
     print(f'Total: {total}')
 
 
@@ -23,6 +19,7 @@ def do_challenge_a(lines):
     for index, l_value in enumerate(sizes_left):
         r_value = sizes_right[index]
         abs_diff = abs(int(l_value) - int(r_value))
+        # print(f'Asbolute diff between {l_value} and {r_value} = {abs_diff}')
         total = total + abs_diff
     return total
 
