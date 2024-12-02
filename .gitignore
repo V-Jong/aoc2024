@@ -21,3 +21,4 @@ venv
 main.py
 logs
 .idea
+*.log
