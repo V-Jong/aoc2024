@@ -2,22 +2,37 @@ import re
 
 
 def do_challenge():
-    file = open('3/test.txt', 'r')
-    lines = file.readlines()
-    total = do_challenge_a(lines)
+    file = open('3/input.txt', 'r')
+    lines = file.read()
+    total = do_challenge_a([lines])
     print(f'Total: {total}')
 
 
 def do_challenge_a(lines):
     total = 0
+    pattern = r"mul\(\d+,\d+\)|do\(\)|don't\(\)"
+
     for line in lines:
-        mults1 = re.findall(r'mul\(\d+,\d+\)(?:(?!don\'t\(\)).)*?(?=don\'t\(\))', line)
-        mults2 = re.findall(r'do\(\)(?:(?!don\'t\(\)).)*?(mul\(\d+,\d+\))', line)
-        for mult in mults1 + mults2:
-            print(f'Found mult {mult}')
-            digits = re.search(r'(\d+),(\d+)', mult)
-            digit1 = int(digits.group(1))
-            digit2 = int(digits.group(2))
-            mul = digit1 * digit2
-            total = total + mul
+        instructions_enabled = True
+        matches = re.findall(pattern, line)
+
+        for index, match in enumerate(matches):
+            match_str = match
+            # print(f'Evaluating match_str: {match_str}')
+
+            if match_str.startswith("mul(") and instructions_enabled:
+                digitsregex = re.findall(r'mul\((\d+),(\d+)\)', match_str)
+                for digits in digitsregex:
+                    digit1 = int(digits[0])
+                    digit2 = int(digits[1])
+                    # print(f'Should multiply {digit1} and {digit2}')
+                    mul = digit1 * digit2
+                    total = total + mul
+
+            if match_str == "do()":
+                # print(f'Found do(), enabling instructions')
+                instructions_enabled = True
+            elif match_str == "don't()":
+                # print(f'Found don\'t(), disabling instructions')
+                instructions_enabled = False
     return total
