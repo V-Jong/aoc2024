@@ -17,7 +17,6 @@ def do_challenge_a(lines):
         line_letters = []
         for c_index, c in enumerate(letter_matches):
             line_letters.append(Letter(c, c_index, line_index))
-        # print(f'Found letters on line {line_index}: {line_letters}')
         letters.append(line_letters)
 
     look_head_limit = 1
@@ -25,9 +24,6 @@ def do_challenge_a(lines):
     lower_boundary = len(lines) - 1
     left_boundary = 0
     right_boundary = len(letters[0]) - 1
-    valid_additional = 'AS'
-    checked_m = []
-    # print(f'Lower b: {lower_boundary}, right b: {right_boundary}')
     flattened = [item for sublist in letters for item in sublist]
     start_time = time.time()
     for letter_a in [x for x in flattened if x.character == 'A']:
@@ -59,7 +55,6 @@ def do_challenge_a(lines):
             # print(f'Left side s and right m: {right_side_m}')
             if top_side_m or bottom_side_m or left_side_m or right_side_m:
                 # print(f'Valid MAS, adding A {letter_a}')
-                checked_m.append(letter_a)
                 total = total + 1
     # print(f'Known Ms ({len(checked_m)}): {checked_m}')
 
@@ -67,28 +62,6 @@ def do_challenge_a(lines):
     execution_time = end_time - start_time
     print(f"Execution time: {execution_time:.6f} seconds")
     return total
-
-
-def get_additional_letters_hor(y, x1, x2, x3, search_list):
-    r_letters = [l for l in search_list if l.y == y and (l.x == x1 or l.x == x2 or l.x == x3)]
-    return "".join(l.character for l in r_letters)
-
-
-def get_additional_letters_ver(x, y1, y2, y3, search_list):
-    r_letters = [l for l in search_list if l.x == x and (l.y == y1 or l.y == y2 or l.y == y3)]
-    return "".join(l.character for l in r_letters)
-
-
-def get_additional_letters_hor_ver(y1, y2, x1, x2, search_list):
-    r_letters = [l for l in search_list if (l.y == y1 and l.x == x1) or (l.y == y2 and l.x == x2)]
-    return "".join(l.character for l in r_letters)
-
-
-def valid_mas_for_a(letter_m, x2, y2, search_list, known_list, letter_a):
-    letter_s = [l for l in search_list if l.y == y2 and l.x == x2]
-    known_a = any(l.x == letter_a.x and l.y == letter_a.y for l in known_list)
-    print(f'Found mas for a: M {letter_m[0]} and S {letter_s}. A known = {known_a}')
-    return not known_a and len(letter_m) == 1 and len(letter_s) == 1 and letter_m[0].character == 'M' and letter_s[0].character == 'S'
 
 
 class Letter:
