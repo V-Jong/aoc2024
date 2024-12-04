@@ -25,6 +25,7 @@ def do_challenge_a(lines):
     left_boundary = 0
     right_boundary = len(letters[0]) - 1
     flattened = [item for sublist in letters for item in sublist]
+    flattened_dict = {(l.x, l.y): l for l in flattened}
     start_time = time.time()
     for letter_a in [x for x in flattened if x.character == 'A']:
         # print('')
@@ -32,10 +33,10 @@ def do_challenge_a(lines):
         # print(f'Checked Ms: {checked_m}')
         if (abs(letter_a.x - right_boundary) >= look_head_limit and abs(letter_a.x - left_boundary) >= look_head_limit and
                 abs(letter_a.y - lower_boundary) >= look_head_limit and abs(letter_a.y - upper_boundary) >= look_head_limit):
-            top_left = [l for l in flattened if l.y == letter_a.y - 1 and l.x == letter_a.x - 1][0]
-            top_right = [l for l in flattened if l.y == letter_a.y - 1 and l.x == letter_a.x + 1][0]
-            bottom_left = [l for l in flattened if l.y == letter_a.y + 1 and l.x == letter_a.x - 1][0]
-            bottom_right = [l for l in flattened if l.y == letter_a.y + 1 and l.x == letter_a.x + 1][0]
+            top_left = flattened_dict.get((letter_a.x - 1, letter_a.y - 1))
+            top_right = flattened_dict.get((letter_a.x + 1, letter_a.y - 1))
+            bottom_left = flattened_dict.get((letter_a.x - 1, letter_a.y + 1))
+            bottom_right = flattened_dict.get((letter_a.x + 1, letter_a.y + 1))
             # print(f'Top left: {top_left}')
             # print(f'Top right: {top_right}')
             # print(f'Bottom left: {bottom_left}')
