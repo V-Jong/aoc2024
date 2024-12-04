@@ -20,7 +20,7 @@ def do_challenge_a(lines):
         # print(f'Found letters on line {line_index}: {line_letters}')
         letters.append(line_letters)
 
-    look_head_limit = 2
+    look_head_limit = 1
     upper_boundary = 0
     lower_boundary = len(lines) - 1
     left_boundary = 0
@@ -30,102 +30,38 @@ def do_challenge_a(lines):
     # print(f'Lower b: {lower_boundary}, right b: {right_boundary}')
     flattened = [item for sublist in letters for item in sublist]
     start_time = time.time()
-    for letter in [x for x in flattened if x.character == 'M']:
-        print('')
-        print(f'Found X: {letter}')
-        print(f'Checked Ms: {checked_m}')
-        if abs(letter.x - right_boundary) >= look_head_limit:
-            if abs(letter.y - lower_boundary) >= look_head_limit:
-                r_name = get_additional_letters_hor_ver(letter.y + 1, letter.y + 2, letter.x + 1, letter.x + 2,
-                                                        flattened)
-                if r_name == valid_additional:
-                    # print(f'Valid check down right')
-                    # Check if there is an X with MAS
-                    letter_a = [l for l in flattened
-                                if l.character == 'A' and l.x == letter.x + 1 and l.y == letter.y + 1][0]
-                    print(f'Found letter A at {letter_a}')
-                    # Check M at top right and S at bottom left
-                    letter_m = [l for l in flattened if l.y == letter_a.y - 1 and l.x == letter_a.x + 1]
-                    if valid_mas_for_a(letter_m, letter_a.x - 1, letter_a.y + 1, flattened, checked_m, letter_a):
-                        print(f'Valid MAS, adding A {letter_a}')
-                        checked_m.append(letter_a)
-                        total = total + 1
-                    # Check M at bottom left and S at top right
-                    letter_m = [l for l in flattened if l.y == letter_a.y + 1 and l.x == letter_a.x - 1]
-                    if valid_mas_for_a(letter_m, letter_a.x + 1, letter_a.y - 1, flattened, checked_m, letter_a):
-                        print(f'Valid MAS, adding A {letter_a}')
-                        checked_m.append(letter_a)
-                        total = total + 1
-            if abs(letter.y - upper_boundary) >= look_head_limit:
-                r_name = get_additional_letters_hor_ver(letter.y - 1, letter.y - 2, letter.x + 1, letter.x + 2,
-                                                        flattened)
-                r_name = r_name[::-1]
-                # print(f'Found top right name: {r_name}')
-                if r_name == valid_additional:
-                    # print(f'Valid check up right')
-                    # Check if there is an X with MAS
-                    letter_a = [l for l in flattened
-                                if l.character == 'A' and l.x == letter.x + 1 and l.y == letter.y - 1][0]
-                    print(f'Found letter A at {letter_a}')
-                    # Check M at top left and S at bottom right
-                    letter_m = [l for l in flattened if l.y == letter_a.y - 1 and l.x == letter_a.x - 1]
-                    if valid_mas_for_a(letter_m, letter_a.x + 1, letter_a.y + 1, flattened, checked_m, letter_a):
-                        print(f'Valid MAS, adding A {letter_a}')
-                        checked_m.append(letter_a)
-                        total = total + 1
-                    # Check M at bottom right and S at top left
-                    letter_m = [l for l in flattened if l.y == letter_a.y + 1 and l.x == letter_a.x + 1]
-                    if valid_mas_for_a(letter_m, letter_a.x - 1, letter_a.y - 1, flattened, checked_m, letter_a):
-                        print(f'Valid MAS, adding A {letter_a}')
-                        checked_m.append(letter_a)
-                        total = total + 1
-        if abs(letter.x - left_boundary) >= look_head_limit:
-            if abs(letter.y - lower_boundary) >= look_head_limit:
-                r_name = get_additional_letters_hor_ver(letter.y + 1, letter.y + 2, letter.x - 1, letter.x - 2,
-                                                        flattened)
-                # r_name = r_name[::-1]
-                # print(f'Found down left name: {r_name}')
-                if r_name == valid_additional:
-                    # print(f'Valid check down left')
-                    # Check if there is an X with MAS
-                    letter_a = [l for l in flattened
-                                if l.character == 'A' and l.x == letter.x - 1 and l.y == letter.y + 1][0]
-                    print(f'Found letter A at {letter_a}')
-                    # Check M at top left and S at bottom right
-                    letter_m = [l for l in flattened if l.y == letter_a.y - 1 and l.x == letter_a.x - 1]
-                    if valid_mas_for_a(letter_m, letter_a.x + 1, letter_a.y + 1, flattened, checked_m, letter_a):
-                        # print(f'Valid MAS, adding A {letter_a}')
-                        checked_m.append(letter_a)
-                        total = total + 1
-                    # Check M at bottom right and S at top left
-                    letter_m = [l for l in flattened if l.y == letter_a.y + 1 and l.x == letter_a.x + 1]
-                    if valid_mas_for_a(letter_m, letter_a.x - 1, letter_a.y - 1, flattened, checked_m, letter_a):
-                        # print(f'Valid MAS, adding A {letter_a}')
-                        checked_m.append(letter_a)
-                        total = total + 1
-            if abs(letter.y - upper_boundary) >= look_head_limit:
-                r_name = get_additional_letters_hor_ver(letter.y - 1, letter.y - 2, letter.x - 1, letter.x - 2,
-                                                        flattened)
-                r_name = r_name[::-1]
-                if r_name == valid_additional:
-                    # print(f'Valid check up left')
-                    # Check if there is an X with MAS
-                    letter_a = [l for l in flattened
-                                if l.character == 'A' and l.x == letter.x - 1 and l.y == letter.y - 1][0]
-                    print(f'Found letter A at {letter_a}')
-                    # Check M at top right and S at bottom left
-                    letter_m = [l for l in flattened if l.y == letter_a.y - 1 and l.x == letter_a.x + 1]
-                    if valid_mas_for_a(letter_m, letter_a.x - 1, letter_a.y + 1, flattened, checked_m, letter_a):
-                        # print(f'Valid MAS, adding A {letter_a}')
-                        checked_m.append(letter_a)
-                        total = total + 1
-                    # Check M at bottom left and S at top right
-                    letter_m = [l for l in flattened if l.y == letter_a.y + 1 and l.x == letter_a.x - 1]
-                    if valid_mas_for_a(letter_m, letter_a.x + 1, letter_a.y - 1, flattened, checked_m, letter_a):
-                        # print(f'Valid MAS, adding A {letter_a}')
-                        checked_m.append(letter_a)
-                        total = total + 1
-    print(f'Known Ms ({len(checked_m)}): {checked_m}')
+    for letter_a in [x for x in flattened if x.character == 'A']:
+        # print('')
+        # print(f'Found A: {letter_a}')
+        # print(f'Checked Ms: {checked_m}')
+        if (abs(letter_a.x - right_boundary) >= look_head_limit and abs(letter_a.x - left_boundary) >= look_head_limit and
+                abs(letter_a.y - lower_boundary) >= look_head_limit and abs(letter_a.y - upper_boundary) >= look_head_limit):
+            top_left = [l for l in flattened if l.y == letter_a.y - 1 and l.x == letter_a.x - 1][0]
+            top_right = [l for l in flattened if l.y == letter_a.y - 1 and l.x == letter_a.x + 1][0]
+            bottom_left = [l for l in flattened if l.y == letter_a.y + 1 and l.x == letter_a.x - 1][0]
+            bottom_right = [l for l in flattened if l.y == letter_a.y + 1 and l.x == letter_a.x + 1][0]
+            # print(f'Top left: {top_left}')
+            # print(f'Top right: {top_right}')
+            # print(f'Bottom left: {bottom_left}')
+            # print(f'Bottom right: {bottom_right}')
+
+            top_side_m = (top_left.character == top_right.character and bottom_left.character == bottom_right.character
+                           and top_left.character == 'M' and bottom_left.character == 'S')
+            bottom_side_m = (top_left.character == top_right.character and bottom_left.character == bottom_right.character
+                          and top_left.character == 'S' and bottom_left.character == 'M')
+            left_side_m = (top_left.character == bottom_left.character and top_right.character == bottom_right.character
+                           and top_left.character == 'M' and top_right.character == 'S')
+            right_side_m = (top_left.character == bottom_left.character and top_right.character == bottom_right.character
+                           and top_left.character == 'S' and top_right.character == 'M')
+            # print(f'Top side m and bottom s: {top_side_m}')
+            # print(f'Top side s and bottom m: {bottom_side_m}')
+            # print(f'Left side m and right s: {left_side_m}')
+            # print(f'Left side s and right m: {right_side_m}')
+            if top_side_m or bottom_side_m or left_side_m or right_side_m:
+                # print(f'Valid MAS, adding A {letter_a}')
+                checked_m.append(letter_a)
+                total = total + 1
+    # print(f'Known Ms ({len(checked_m)}): {checked_m}')
 
     end_time = time.time()
     execution_time = end_time - start_time
