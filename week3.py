@@ -1,10 +1,15 @@
 import re
+import time
 
 
 def do_challenge():
+    start_time = time.time()
     file = open('3/input.txt', 'r')
     lines = file.read()
     total = do_challenge_a([lines])
+    end_time = time.time()
+    execution_time = end_time - start_time
+    print(f"Execution time: {execution_time:.6f} seconds")
     print(f'Total: {total}')
 
 
@@ -35,4 +40,5 @@ def do_challenge_a(lines):
             elif match_str == "don't()":
                 # print(f'Found don\'t(), disabling instructions')
                 instructions_enabled = False
+
     return total

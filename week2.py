@@ -20,8 +20,8 @@ def do_challenge_a(lines):
             levels.append(int(level_str))
         levels_list.append(levels)
     for index, levels in enumerate(levels_list):
-        print(f'')
-        print(f'Checking level at index {index}: {levels}')
+        # print(f'')
+        # print(f'Checking level at index {index}: {levels}')
         trend = Trend.INCREASING
         if levels[0] > levels[1]:
             trend = Trend.DECREASING
@@ -57,19 +57,19 @@ def is_level_safe(levels, trend):
         levels_diff_allowed = is_allowed_difference(level, second_n)
         levels_trend_allowed = is_valid_trend(level, second_n, trend)
         are_two_levels_safe = levels_diff_allowed and levels_trend_allowed
-        print(f'Evaluating levels {level} and next {second_n}, increasing {trend}; result {are_two_levels_safe}')
+        # print(f'Evaluating levels {level} and next {second_n}, increasing {trend}; result {are_two_levels_safe}')
         if not are_two_levels_safe:
-            print(f'Not safe, stopping')
+            # print(f'Not safe, stopping')
             break
         if l_index == len(levels) - 2:
-            print(f'Setting this level to safe')
+            # print(f'Setting this level to safe')
             level_safe = True
     return level_safe
 
 
 def is_allowed_difference(level1, level2):
     abs_diff = abs(level1 - level2)
-    print(f'Checking first {level1}, second {level2}; diff {abs_diff} ')
+    # print(f'Checking first {level1}, second {level2}; diff {abs_diff} ')
     return 1 <= abs_diff <= 3
 
 
@@ -79,7 +79,7 @@ def is_valid_trend(level1, level2, trend):
         valid_trend = True
     if trend == Trend.DECREASING and level2 < level1:
         valid_trend = True
-    print(f'Checking first {level1}, second {level2}; trend {trend} is valid {valid_trend}')
+    # print(f'Checking first {level1}, second {level2}; trend {trend} is valid {valid_trend}')
     return valid_trend
 
 
