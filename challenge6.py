@@ -18,9 +18,9 @@ passed_nodes = {}
 
 
 def do_challenge():
-    file = open('6/input.txt', 'r')
+    file = open('6/test.txt', 'r')
     lines = file.read().splitlines()
-    thread = threading.Thread(target=do_challenge_a(lines))
+    thread = threading.Thread(target=do_challenge_b(lines))
     thread.start()
 
 
@@ -43,6 +43,41 @@ def do_challenge_a(lines):
 
     open('6/debug.txt', 'w').close()
     count_traveled((start_x, start_y), 'up', max_x, max_y)
+
+    end_time = time.time()
+    execution_time = end_time - start_time
+    print(f"Execution time: {execution_time:.6f} seconds")
+    print(f'Traveled: {get_travel_count()}')
+
+
+def do_challenge_b(lines):
+    start_time = time.time()
+    max_x = 0
+    max_y = len(lines)
+    start_x = -1
+    start_y = -1
+    for l_index, line in enumerate(lines):
+        if max_x == 0:
+            max_x = len(line)
+        for c_index, c in enumerate(line):
+            # print(f'Adding char {c} to ({c_index},{l_index})')
+            if c == '^':
+                start_x = c_index
+                start_y = l_index
+                # print(f'Found start at: ({start_x}, {start_y})')
+            grid.update({(c_index, l_index): c})
+
+    open('6/debug.txt', 'w').close()
+    obstacles = [key for key, value in grid.items() if value == '#']
+    for obstacle in obstacles:
+        print(f'Checking if can make closed loop with {obstacle}, {obstacle[0]} - {obstacle[1]}')
+        left_obstacles = [(x, y) for (x, y) in obstacles if y == obstacle[1] - 1]
+        right_obstacles = [(x, y) for (x, y) in obstacles if x == obstacle[0] - 1]
+        if len(left_obstacles) == 1 and len(right_obstacles) == 1:
+            left_obstacles = left_obstacles[0]
+            right_obstacles = right_obstacles[0]
+            proposed = (left_obstacles[0] - 1, right_obstacles[1] - 1)
+            print(f'From obstacle {obstacle}, found left {left_obstacles}, right {right_obstacles} and proposing {proposed}')
 
     end_time = time.time()
     execution_time = end_time - start_time
